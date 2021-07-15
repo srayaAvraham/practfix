@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "final-project-degree",
+  "private_key_id": "ffe16814e655a656323fb4da6e8b8fabec80b490",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCXOzcC1v4WBG6w\n5hfVksuu+seu+OK624FdvZPrKYnt2NVwFWpKAL//+4kIM3HdU/nhOZ5IotchVtaq\n+424v+GcLjyR+RN5y7Vv5kTtvkgZ2zIv/ooqbVljyN5GAqhz+b5Q3Rz3F0AHSFRl\nf+qGs5fHJ2InsSGvvyDvq3zNlgSPCCmyny1ENuAQTvIBoLzG77O0YYDc20M1VB8E\nxLTRUJGWN1W+sfsGsW3ncDJRV5z1okerw8aMWZYlQxIhRjM46oHd8Yf7q0NNAQdh\n1aA7k70tzfvXVcgHgONfQTdTUYGx8WteJkfjvsqYPYCDAmXQAggj/eZ7PU4Id1gk\nI2sLrBfDAgMBAAECggEAQQh7TxLR//jW+uZvkG3Ifk4kiZdItO8I8h1Am0tpH2lz\n23eyFfG9nyB1XJv21qUymwpyiSzRk2oq9Sso1i5ZoBZ4AJPaLrGNq/mbYZtGmSvc\nKKxukPEmFBWAlB23f+wBTffP6WfLpnYRqPY5jcR0O/WxLX1sDY4E5Vva1vOwsSq5\nX8v3Sk9A61N6JNHSrNoKooLGOg7m/uXtw+Fc7//9mOzqg85KlTotG0JiNU1SbHDD\nYEsUGV6fFVHNU84dNcaSRN8v+otfjnWY2eJJKiGWy0I0JrhjUXyIpP0zR/HInIl3\ns0Pl0VnYKLMTshjy3s3Aq0toX+MgWZjOnQJLR+AP1QKBgQDSItH+DyuxFKjWYWR9\nEwOi38oY6zTqis0O5MXV9dahX/WfmuBURSbkyZA5PIVkdtrDA6rgVoioF4sIB3X3\n6kB5EYes1TbIkGUaQNLiVfdOk4nOd9Y2xYjKdtL+g3gmVHmPAO90w0L95s9PGgBO\nWc31BsTtMPcUcD7hSo9MC1eqnQKBgQC4PSRIPmiVhxH5/twrzbHtC3+WJ2yATMai\nKPgVCJF2z0jHc4sarnC/pqbtjXArcbX5i2cFBuf5vYCRnUNxq11mVVdCNhI2KnFS\nNkUOeWUtR2aWQOnODkMEn7n2p4RdfghJ6ALvAJphLbhLOW5ldMov0WxfQYgC2+pA\niloRw86N3wKBgEXIknwQha308mzfQwPWQKriLrc/xP7uwVJk3t5DGdfVijhKspzJ\nqjToSyD23EWUwuloWmLN2ewYhW9RKvf9rxOFoszesabBbRHe3SmU6uAJVwZd/aGK\nz/aMp10mQ8xW2VeIM/1OqvyuncHjHJ7oa+EnMlaioCsFa5xdqmDSk3ZxAoGAfu3o\ntDkC1pmC4gga6bbB8TztvqYUk2PRqWCuYddQWFlAm+DXoh8yIGeRM7Iw6E1kALNw\n2z7BzQYosKl3ELXuGBWNk1krPNQK1If9FZa/BO3fGH9KVSLwOxxMA0mv4LV2wmws\nsTpqIa9c+75qd016Cm2uywWbzdRy09o9aWXMRWMCgYEArVShG5mwWXFwHGv+6PlL\nrRvPG6KGK8iLnBfb+1B1UCTCKhFzW2NoTXHAnKR6oC/jSKeEH7mAWT8iCquH5QUs\na0BXmiwN2bzud0daecnIBIPIeUfZRvUPrrA8X/MS2Ski8xgo3H3+NlLdQWV6ziyD\nWcerb5V6lRGB8hkhFuROi2o=\n-----END PRIVATE KEY-----\n",
+  "client_email": "minio-account@final-project-degree.iam.gserviceaccount.com",
+  "client_id": "109322322678512221129",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/minio-account%40final-project-degree.iam.gserviceaccount.com"
+}
