@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const router = express.Router();
 const config = require('../config');
 const { User } = require("../models/User");
-
+const mongoService = require('../services/mongoService');
 const { auth } = require("../middleware/auth");
 
 router.get("/auth", auth, (req, res) => {
@@ -17,21 +17,23 @@ router.get("/auth", auth, (req, res) => {
   });
 });
 
-router.post("/register", (req, res) => {
-
-  const user = new User({
+router.post("/register", async (req, res) => {
+  
+  //TODO check if email is taken
+  const user = {
     name: req.body.name,
+    userName: req.body.userName || req.body.name,
     email: req.body.email,
     password: req.body.password,
-  });
+  };
 
-  user.save((err) => {
-    if (err) {
-      res.status(500).send({ message: err });
-      return;
-    }
-    res.status(200).send({ message: "User was registered successfully!" });
-  });
+  try {
+      await mongoService.addUser(user);
+      res.status(200).send({ message: "User was registered successfully!" });
+  } catch (err) {
+    res.status(500).send({ message: err });
+  }
+
 });
 
 router.post("/login", (req, res) => {
