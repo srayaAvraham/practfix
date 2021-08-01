@@ -1,15 +1,17 @@
 import nodemailer, { Transporter } from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
+import config from '../config';
+const mailConfig = config.mail;
 
 export default async function sendMail(mail: string, fullName: string) {
     // create reusable transporter object using the default SMTP transport
     let transporter: Transporter = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 587,
+        host: mailConfig.host,
+        port: mailConfig.port,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: "practfix@gmail.com", // generated ethereal user
-            pass: "Aa123456!", // generated ethereal password
+            user: mailConfig.user, // generated ethereal user
+            pass: mailConfig.pass, // generated ethereal password
         },
         tls: {
             rejectUnauthorized: false,
@@ -21,7 +23,7 @@ export default async function sendMail(mail: string, fullName: string) {
         from: '"practfix" <practfix@gmail.com>', // sender address
         to: mail, // list of receivers
         subject: "practfix", // Subject line
-        text: `Hello ${fullName},\nשמחים לבשר שהתרגול ששלחת עובד ועלה לאתר\nעומדים לשירותכם תמיד,\nצוות practfix`, // plain text body
+        text: `Hello ${fullName}, ${mailConfig.messageToPatient}`, // plain text body
     });
 
     console.log(`Message sent: ${info.messageId}`);
