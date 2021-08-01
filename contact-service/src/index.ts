@@ -1,11 +1,18 @@
-const amqplib = require('amqplib');
-const nodemailer = require("nodemailer");
+import consumerRabbit from './services/rabbitConsumer';
+import mailSender from './services/mailService';
+
+consumerRabbit(mailSender);
+
+
+/* import amqplib from 'amqplib';
+import nodemailer, { Transporter } from 'nodemailer';
+import Mail from 'nodemailer/lib/mailer';
 const queueName = "call_to_user";
 var amqp_url = "amqps://nvrswiti:g6sHr4Z8IHYLb2ynujmuWZtNx8Bpe77T@cow.rmq2.cloudamqp.com/nvrswiti"; // || 'amqp://localhost:5672';
 
-async function sendMail(mail, fullName) {
+async function sendMail(mail: string, fullName: string) {
     // create reusable transporter object using the default SMTP transport
-    let transporter = nodemailer.createTransport({
+    let transporter: Transporter = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 587,
         secure: false, // true for 465, false for other ports
@@ -19,7 +26,7 @@ async function sendMail(mail, fullName) {
     });
 
     // send mail with defined transport object
-    let info = await transporter.sendMail({
+    let info: Mail.Options = await transporter.sendMail({
         from: '"practfix" <practfix@gmail.com>', // sender address
         to: mail, // list of receivers
         subject: "practfix", // Subject line
@@ -33,7 +40,7 @@ async function sendMail(mail, fullName) {
 async function do_consume() {
     const conn = await amqplib.connect(amqp_url, "heartbeat=60");
     const channel = await conn.createChannel()
-    await channel.assertQueue(queueName, { durable: false });
+    await channel.assertQueue(queueName, { durable: true });
     channel.prefetch(1);
     console.log(`[*] Waiting for messages in ${queueName}. To exit press CTRL+C`);
     await channel.consume(queueName, async function (msg) {
@@ -47,4 +54,4 @@ async function do_consume() {
     });
 }
 
-do_consume();
+do_consume(); */
