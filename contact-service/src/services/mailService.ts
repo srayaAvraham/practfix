@@ -3,6 +3,11 @@ import Mail from 'nodemailer/lib/mailer';
 import config from '../config';
 const mailConfig = config.mail;
 
+/**
+ * Send mail
+ * @param mail mail to send message
+ * @param fullName owner of mail
+ */
 export default async function sendMail(mail: string, fullName: string) {
     // create reusable transporter object using the default SMTP transport
     let transporter: Transporter = nodemailer.createTransport({
