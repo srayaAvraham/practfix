@@ -1,6 +1,5 @@
 const multer = require('multer');
 const path = require('path');
-const Minio = require('minio')
 const { uuid } = require('uuidv4');
 
 const diskStorage = multer.diskStorage({

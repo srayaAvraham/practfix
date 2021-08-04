@@ -10,12 +10,12 @@ export const Video = ({video}) => {
   const user = useSelector(userSelector);
   useEffect(() => {
 
-      dispatch(getPatientVideo({id:video._id, userId: user.id }))
+      dispatch(getPatientVideo({id:video._id, userId: user._id }))
     },[])
 
   const handleClick = (id) => {
       dispatch(setCurrentVideo(id))
-      dispatch(getPatientVideo({id, userId: user.id }))
+      dispatch(getPatientVideo({id, userId: user._id }))
   }
 
 

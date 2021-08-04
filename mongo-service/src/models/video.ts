@@ -19,7 +19,7 @@ interface IVideo extends Document {
 const videoSchema: Schema = new Schema(
   {
     uploader: { type: mongoose.Types.ObjectId, required: true, ref: 'User' },
-    title: {type: String, required: true, maxlength: 20, trim: true},
+    title: {type: String, maxlength: 20, trim: true},
     description: {type: String, trim: true},
     videoPath: {type: String, unique: true, sparse: true},
     duration: { type: String, required: true, trim: true },

@@ -1,14 +1,12 @@
 const express = require('express');
 const app = express();
 const cors = require("cors");
-const mongoose = require('mongoose');
 const logger = require('morgan');
 const port = process.env.PORT || 5000;
 const uploadRouter = require('./routes/upload');
 const usersRouter = require('./routes/users');
 const videosRouter = require('./routes/videos');
 
-require('./services/db');
 let corsOptions = {
   origin: "*",
 };

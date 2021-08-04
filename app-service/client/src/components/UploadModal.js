@@ -33,7 +33,7 @@ export const UploadModal = ({ visible, onCreate, onCancel }) => {
     formData.append('myFile', selectedFile[0].originFileObj);
     formData.append('title', values.title);
     formData.append('description', values.description);
-    formData.append('user', user.id);
+    formData.append('user', user._id);
 
     fetch(
       'http://localhost:5000/upload',

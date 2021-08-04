@@ -36,7 +36,7 @@ export const allPracticeOfVideo = async (req: Request, res: Response) => {
 
 export const practiceOfVideoPerUser = async (req: Request, res: Response) => {
     try {
-        const query = {physioVideoId: req.params.videoId, uploader: req.params.userId};
+        const query = {physioVideoId: req.params.videoId, uploader: req.params.userId, isPatient: true};
         const videos: LeanDocument<IVideo[]> = await Video.find(query).exec();
         res.send(videos);
     } catch (error) {
@@ -109,9 +109,11 @@ export const addVideo = async (req: Request, res: Response) => {
         'score',
         'isPatient'
     ]);
+
     if (newVideo.isPatient && !newVideo.physioVideoId) {
         res.status(400).send('Patient\'s video must a "physioVideoId" field');
     }
+
     let video = new Video(req.body);
     try {
         const newVideo: IVideo = await video.save();

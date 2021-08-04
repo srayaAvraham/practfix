@@ -12,7 +12,7 @@ export const UploadVideo = () => {
   const props = {
     name: 'myFile',
     multiple: false,
-    action: `http://localhost:5000/upload/${current._id}/${user.id}`,
+    action: `http://localhost:5000/upload/${current._id}/${user._id}`,
     onChange(info) {
       const { status } = info.file;
       if (status !== 'uploading') {
