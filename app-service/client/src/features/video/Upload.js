@@ -19,7 +19,7 @@ export const UploadVideo = () => {
         console.log(info.file, info.fileList);
       }
       if (status === 'done') {
-        dispatch(getPatientVideo({id:current._id, userId: user.id }))
+        dispatch(getPatientVideo({id:current._id, userId: user._id }))
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
