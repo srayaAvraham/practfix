@@ -45,7 +45,7 @@ export const UploadModal = ({ visible, onCreate, onCancel }) => {
       .then((response) => response.json())
       .then((result) => {
         setConfirmLoading(false)
-        dispatch(addVideo(result.doc))
+        dispatch(addVideo(result))
         console.log('Success:', result);
       })
       .catch((error) => {

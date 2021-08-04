@@ -45,7 +45,7 @@ export const videoSlice = createSlice({
       state.current = state.videoList.find((item) => item._id === action.payload)
     },
     addVideo: (state, action) => {
-      state.videoList.push(action.payload)
+      state.videoList.push(action.payload.video)
     },
   },
   extraReducers: (builder) => {
