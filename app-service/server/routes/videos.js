@@ -1,9 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { Video } = require('../models/Video');
 const Minio = require('minio')
-const fs = require('fs')
-
+const mongoService = require('../services/mongoService');
 
 const minioClient = new Minio.Client({
   endPoint: 'minio',
@@ -15,7 +13,7 @@ const minioClient = new Minio.Client({
 
 router.get('/all', async function (req, res) {
   try {
-    const result = await Video.find({ isPatient: false });
+    const result = await mongoService.getAllPhysioVideo()
     res.json(result)
   } catch (err) {
     res.status(500).send(err)
@@ -26,9 +24,10 @@ router.get('/video/:id/:userId', async function (req, res) {
   let { id, userId } = req.params;
 
   try {
-    const result = await Video.find({ isPatient: true, physioVideoId: id, uploader: userId });
+    const result = await mongoService.practiceOfVideoPerUser(userId, id);
     res.json(result)
   } catch (err) {
+    console.log(error)
     res.status(500).send(err)
   }
 });

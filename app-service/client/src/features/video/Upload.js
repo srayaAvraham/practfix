@@ -12,14 +12,14 @@ export const UploadVideo = () => {
   const props = {
     name: 'myFile',
     multiple: false,
-    action: `http://localhost:5000/upload/${current._id}/${user.id}`,
+    action: `http://localhost:5000/upload/${current._id}/${user._id}`,
     onChange(info) {
       const { status } = info.file;
       if (status !== 'uploading') {
         console.log(info.file, info.fileList);
       }
       if (status === 'done') {
-        dispatch(getPatientVideo({id:current._id, userId: user.id }))
+        dispatch(getPatientVideo({id:current._id, userId: user._id }))
         message.success(`${info.file.name} file uploaded successfully.`);
       } else if (status === 'error') {
         message.error(`${info.file.name} file upload failed.`);

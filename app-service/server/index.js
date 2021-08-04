@@ -1,15 +1,12 @@
 const express = require('express');
 const app = express();
 const cors = require("cors");
-const mongoose = require('mongoose');
 const logger = require('morgan');
 const port = process.env.PORT || 5000;
-const scoreRouter = require('./routes/score');
 const uploadRouter = require('./routes/upload');
 const usersRouter = require('./routes/users');
 const videosRouter = require('./routes/videos');
 
-require('./services/db');
 let corsOptions = {
   origin: "*",
 };
@@ -29,7 +26,6 @@ app.get('/', (req, res) => {
 
 app.use('/api/users', usersRouter);
 app.use('/api/media', videosRouter);
-app.use('/score', scoreRouter);
 app.use('/upload', uploadRouter);
 
 app.use((err, req, res, next) => {

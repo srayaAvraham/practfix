@@ -5,10 +5,12 @@ import { User, IUser } from '../models/user';
 import { comparePassword } from "../tools/hashPassword";
 import { getUserDTO } from "../tools/helper";
 import { validateEmail, validateMongoID } from "../tools/validation";
+import jwt from 'jsonwebtoken';
+import { config } from '../config';
 
 export const allusers = async (req: Request, res: Response) => {
 
-  const users: LeanDocument<IUser[]> = await User.find({}).select({password: 0, __v: 0}).lean().exec();
+  const users: LeanDocument<IUser[]> = await User.find({}).select({ password: 0, __v: 0 }).lean().exec();
   res.send(users);
 };
 
@@ -17,13 +19,13 @@ export const getUserByIdentifier = async (req: Request, res: Response) => {
     const identifier: string = req.params.identifier;
     let user: LeanDocument<IUser>;
     if (validateMongoID(identifier)) {
-      user = await User.findById(identifier).select({password: 0, __v: 0}).lean().exec();
+      user = await User.findById(identifier).select({ password: 0, __v: 0 }).lean().exec();
     } else {
       let query: any = {};
       !!validateEmail(identifier) ? query.email = identifier : query.userName = identifier;
-      user = await User.findOne(query).select({password: 0, __v: 0}).lean().exec();
+      user = await User.findOne(query).select({ password: 0, __v: 0 }).lean().exec();
     }
-  
+
     !!!user ? res.status(404).send("user cant find") : res.send(user);
   } catch (error) {
     res.status(400).send("There is problem in fetch the data");
@@ -34,8 +36,8 @@ export const deleteUser = async (req: Request, res: Response) => {
   try {
     const id: string = req.params.id;
     if (validateMongoID(id)) {
-      const user: LeanDocument<IUser> = await User.findOneAndDelete({_id: id}).select({password: 0, __v: 0}).lean().exec();
-       return !!user ? res.send(user) : res.status(404).send(`user with id: ${id} cant find`);
+      const user: LeanDocument<IUser> = await User.findOneAndDelete({ _id: id }).select({ password: 0, __v: 0 }).lean().exec();
+      return !!user ? res.send(user) : res.status(404).send(`user with id: ${id} cant find`);
     }
   } catch (error) {
     res.status(400).send("There is problem in delete user");
@@ -44,24 +46,29 @@ export const deleteUser = async (req: Request, res: Response) => {
 };
 
 export const updateUser = async (req: Request, res: Response) => {
-  const updateValue: Partial<IUser> = _.pick(req.body, ['password', 'userName', 'email', 'name']); 
-    try {
-      const userUpdate: LeanDocument<IUser> = await User.findOneAndUpdate({_id: req.params.id}, updateValue, {new: true, lean: true});
-      res.send(...getUserDTO([userUpdate]))
-    } catch (error) {
-      res.status(404).send(`user with id: ${req.params.id} cant find`);
-    }
+  const updateValue: Partial<IUser> = _.pick(req.body, ['password', 'userName', 'email', 'name']);
+  try {
+    const userUpdate: LeanDocument<IUser> = await User.findOneAndUpdate({ _id: req.params.id }, updateValue, { new: true, lean: true });
+    res.send(...getUserDTO([userUpdate]))
+  } catch (error) {
+    res.status(404).send(`user with id: ${req.params.id} cant find`);
+  }
 
-   
+
 };
 
 export const loginUser = async (req: Request, res: Response) => {
   const { email, userName, password } = req.body as Partial<IUser>;
   try {
-    const user: LeanDocument<IUser> = await User.findOne({ ...(email) && { email }, ...(userName) && { userName } }).select({__v: 0}).lean().exec();
+    const user: LeanDocument<IUser> = await User.findOne({ ...(email) && { email }, ...(userName) && { userName } }).select({ __v: 0 }).lean().exec();
     const isRightPassword: Boolean = await comparePassword(password, user.password);
     if (isRightPassword) {
-      res.status(200).send(...getUserDTO([user]));
+
+      let accessToken = jwt.sign({ id: user.id }, config.secret, {
+        expiresIn: 86400,
+      });
+
+      res.status(200).send({ ...getUserDTO([user])[0], accessToken });
     } else {
       throw { message: "password is incorrect" };
     }

@@ -91,6 +91,10 @@ const { isFetching, isSuccess, isError, errorMessage } = useSelector(
               required: true,
               message: "Please input your Password!",
             },
+            {
+              min: 8,
+              message: "Enter at least 8 characters",
+            },
           ]}
         >
           <Input
