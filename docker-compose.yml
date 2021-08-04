@@ -47,7 +47,7 @@ services:
     ports:
       - "9000:9000"
     volumes:
-      - ./credentials_minio_new.json:/credentials.json
+      - ./practfix-315623-c4c567022933.json:/credentials.json
       # - C:\Users\sraya\Desktop\minio:/data
       # - C:\Users\sraya\Desktop\minio\config:/root/.minio
     environment:
@@ -56,7 +56,7 @@ services:
       #- "MINIO_ROOT_PASSWORD=miniominio"
       - "MINIO_ACCESS_KEY=miniominio"
       - "MINIO_SECRET_KEY=miniominio"
-    command: gateway gcs final-project-degree
+    command: gateway gcs practfix-315623
     
   createbuckets:
     image: minio/mc
@@ -67,9 +67,15 @@ services:
       /usr/bin/mc alias set myminio http://minio:9000 miniominio miniominio;
       /usr/bin/mc mb myminio/practfix/;
       /usr/bin/mc policy set download myminio/practfix/;
-      /usr/bin/mc mb myminio/practfix/videos/;
+      /usr/bin/mc mb myminio/practfix/jsonzips/;
+      /usr/bin/mc policy set download myminio/practfix/jsonzips/;
+      /usr/bin/mc mb myminio/practfix/optimalgraph/;
+      /usr/bin/mc policy set download myminio/practfix/optimalgraph/;
+      /usr/bin/mc mb myminio/practfix/twolinesgraph/;
+      usr/bin/mc policy set download myminio/practfix/twolinesgraph/;
       /usr/bin/mc mb myminio/practfix/thumbnail/;
-      /usr/bin/mc policy set download myminio/practfix/thumbnail/;
-      /usr/bin/mc policy set download myminio/practfix/videos/;
+      usr/bin/mc policy set download myminio/practfix/thumbnail/;
+      /usr/bin/mc mb myminio/practfix/videos/;
+      usr/bin/mc policy set download myminio/practfix/videos/;
       exit 0;
       "
