@@ -14,7 +14,7 @@ const callToUser = (mail, fullName, type) => {
       }
 
       channel.assertQueue(queueNameToContact, {
-        durable: false,
+        durable: true,
       });
       try {
         const data = Buffer.from(JSON.stringify({ mail, fullName, type }));

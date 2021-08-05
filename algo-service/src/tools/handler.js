@@ -16,7 +16,7 @@ const { bucketName } = require('../../config');
 const patientHandler = async (videoId, fileName, patientFileZipPath) => {
     const physioJsonsPathMinio = (await mongoService.getPhysioDetailsByPracticeId(videoId)).jsonPath;
     const pathInBucket = physioJsonsPathMinio.split('/').splice(-2).join('/');
-    const physioFileZipPath = path.resolve(`../temp/${physioJsonsPathMinio.split('/').splice(-1).join('/')}`);
+    const physioFileZipPath = path.resolve(path.join(__dirname, `../../temp/${physioJsonsPathMinio.split('/').splice(-1).join('/')}`));
     await minioService.fetchjsonZip(bucketName, pathInBucket, physioFileZipPath);
     const dirOutputExpert = physioFileZipPath.split(".").slice(0, -1).join(".");
     const dirOutputPatient = patientFileZipPath.split(".").slice(0, -1).join(".");
@@ -24,7 +24,7 @@ const patientHandler = async (videoId, fileName, patientFileZipPath) => {
     await extract(physioFileZipPath, { dir: dirOutputExpert });
     console.log("Extraction complete");
     const pyRun = util.promisify(PythonShell.run).bind(PythonShell);
-    const outputPython = await pyRun("final-project/main.py", {
+    const outputPython = await pyRun(path.join(__dirname, "../../../DTW-algorithm/main.py"), {
         args: [
             dirOutputExpert,
             dirOutputPatient,
@@ -32,8 +32,11 @@ const patientHandler = async (videoId, fileName, patientFileZipPath) => {
     });
     try {
         const jsonPath = await minioService.uploadFile(bucketName, patientFileZipPath, `jsonzips/${fileName}`);
+        console.log('[x] save jsons in minio');
         const twoLineGraphPath = await minioService.uploadFile(bucketName, outputPython[0], `twolinesgraph/${path.parse(outputPython[0]).base}`);
+        console.log('[x] save two Line Graph Path in minio');
         const optimalGraphPath = await minioService.uploadFile(bucketName, outputPython[1], `optimalgraph/${path.parse(outputPython[1]).base}`);
+        console.log('[x] save optimal Graph Path in minio');
         await mongoService.updateVideoDetails(videoId, { jsonPath, optimalGraphPath, twoLineGraphPath, score: outputPython[2], status: 'success' });
     } catch (error) {
         console.error(`An error has accourred while trying to save json files of id: ${videoId}`);
@@ -55,6 +58,7 @@ const patientHandler = async (videoId, fileName, patientFileZipPath) => {
 const physioHandler = async (videoId, fileName, patientFileZipPath) => {
     try {
         const minioPath = await minioService.uploadFile(bucketName, patientFileZipPath, `jsonzips/${fileName}`);
+        console.log('[x] save jsons in minio');
         await mongoService.updateVideoDetails(videoId, { jsonPath: minioPath, status: 'success' });
     } catch (error) {
         console.error(`An error has accourred while trying to save json files of id: ${videoId}`);

@@ -15,10 +15,10 @@ const SCOPES = [
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
-const TOKEN_PATH = "token.json";
+const TOKEN_PATH = path.join(__dirname, '../token.json');
 
 const getFile = async (folderId, filename) => {
-  const { client_secret, client_id, redirect_uris } = JSON.parse(fs.readFileSync("credentials.json")).installed;
+  const { client_secret, client_id, redirect_uris } = JSON.parse(fs.readFileSync(path.join(__dirname, '../credentials.json'))).installed;
   const oAuth2Client = new google.auth.OAuth2(
     client_id,
     client_secret,
@@ -123,7 +123,7 @@ const getFileById = async (auth, fileId, filename) => {
     const drive = google.drive({ version: "v3", auth });
     const res = await drive.files.get({ fileId, alt: "media" }, { responseType: "stream" });
     return new Promise((resolve, reject) => {
-      const filePath = `temp/${filename}`;
+      const filePath = path.join(__dirname, `../temp/${filename}`);
       console.log(`writing to ${filePath}`);
       const dest = fs.createWriteStream(filePath);
       let progress = 0;

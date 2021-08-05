@@ -1,17 +1,11 @@
 const fs = require("fs");
 const { getFile } = require("./driveService");
 const amqp = require("amqplib/callback_api");
-const { PythonShell } = require("python-shell");
-const path = require('path');
-const extract = require("extract-zip");
-const rimraf = require("rimraf");
-const util = require("util");
-const minioService = require("./minioService");
 const { callToUser } = require("./rabbitService");
 const mongoService = require('./mongoService');
 const { delay } = require('./tools/tools');
 const { patientHandler, physioHandler } = require('./tools/handler');
-const { rabbitMQUrl, bucketName, folderId, queueNameFromOpenPose } = require('../config');
+const { rabbitMQUrl, folderId, queueNameFromOpenPose } = require('../config');
 
 amqp.connect(rabbitMQUrl, function (error, connection) {
   if (error) {
@@ -65,9 +59,10 @@ amqp.connect(rabbitMQUrl, function (error, connection) {
         } catch (error) {
           await mongoService.updateVideoDetails(videoId, { status: 'faild' });
         }
+        channel.ack(msg);
       },
       {
-        noAck: true,
+        noAck: false,
       }
     );
   });

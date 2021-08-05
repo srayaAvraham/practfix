@@ -54,10 +54,8 @@ def compute_cost(aar1, arr2):
 
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    path_to_json_expert = sys.argv[1] #'final-project/arm_full_range/output/expert'
-    path_to_json_patient = sys.argv[2] #'final-project/arm_full_range/output/patient'
-    # print("path_to_json_expert:", path_to_json_expert)
-    # print("path_to_json_patient:", path_to_json_patient)
+    path_to_json_expert = sys.argv[1] 
+    path_to_json_patient = sys.argv[2]
     vector_arrays_expert = vector_arrays_from_json(path_to_json_expert)
     vector_arrays_patient = vector_arrays_from_json(path_to_json_patient)
     
@@ -65,26 +63,30 @@ if __name__ == '__main__':
     os.mkdir(os.path.join(path_to_json_patient,"twoLineGraph"))
     for i in range(len(vector_arrays_expert)):
         twoline_file = os.path.join(path_to_json_patient,"twoLineGraph", "lineNum_" + str(i+1) +".png")
-        # print("compare:", i)
         chart.compare_tow_line(vector_arrays_expert[i], vector_arrays_patient[i], twoline_file)
-    print(zip_json_files(os.path.join(path_to_json_patient + "twoline.zip"), os.path.join(path_to_json_patient,"twoLineGraph")))
-    C =  dtw.compute_cost_matrix(vector_arrays_expert[2], vector_arrays_patient[2], metric='euclidean')
-    # print('Cost matrix C =', C, sep='\n')
+    print(zip_json_files(os.path.join(path_to_json_patient + "_twoline.zip"), os.path.join(path_to_json_patient,"twoLineGraph")))
 
-    D =  dtw.compute_accumulated_cost_matrix(C)
-    # print('Accumulated cost matrix D =', D, sep='\n')
-    # print('DTW distance DTW(X, Y) =', D[-1, -1])
+    os.mkdir(os.path.join(path_to_json_patient,"optimalWarpingPath"))
+    for i in range(len(vector_arrays_expert)):
+        optimal_file = os.path.join(path_to_json_patient,"optimalWarpingPath", "optimalWarping_" + str(i+1) +".png")
+        C =  dtw.compute_cost_matrix(vector_arrays_expert[i], vector_arrays_patient[i], metric='euclidean')
+        # print('Cost matrix C =', C, sep='\n')
 
-    P = dtw.compute_optimal_warping_path(D)
-    # print('Optimal warping path P =', P.tolist())
+        D =  dtw.compute_accumulated_cost_matrix(C)
+        # print('Accumulated cost matrix D =', D, sep='\n')
+        # print('DTW distance DTW(X, Y) =', D[-1, -1])
 
-    c_P = sum(D[n, m] for (n, m) in P)
-    # print(c_P / len(P))
-    # print('Total cost of optimal warping path:', c_P)
-    # print('DTW distance DTW(X, Y) =', D[-1, -1])
-    optimal_file = os.path.join(path_to_json_patient + ".png")
-    chart.optimal_path(P, D, optimal_file)
-    print(optimal_file)
+        P = dtw.compute_optimal_warping_path(D)
+        # print('Optimal warping path P =', P.tolist())
+
+        c_P = sum(D[n, m] for (n, m) in P)
+        # print(c_P / len(P))
+        # print('Total cost of optimal warping path:', c_P)
+        # print('DTW distance DTW(X, Y) =', D[-1, -1])
+        # optimal_file = os.path.join(path_to_json_patient + ".png")
+        chart.optimal_path(P, D, optimal_file)
+    print(zip_json_files(os.path.join(path_to_json_patient + "_optimalWarping.zip"), os.path.join(path_to_json_patient,"optimalWarpingPath")))
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=50) as executor:
         future_to_compere = {executor.submit(compute_cost, vector_arrays_expert[i], vector_arrays_patient[i]): i for i in range(0, 50)}
         for future in concurrent.futures.as_completed(future_to_compere):
@@ -94,7 +96,6 @@ if __name__ == '__main__':
             except Exception as exc:
                 print(exc)
             else:
-                # print(index, ": ",  data)
                 distances.append(data)
 
     score = np.average(distances)
