@@ -1,13 +1,16 @@
-const fs = require("fs");
-const { getFile } = require("./driveService");
-const amqp = require("amqplib/callback_api");
-const { callToUser } = require("./rabbitService");
-const mongoService = require('./mongoService');
-const { delay } = require('./tools/tools');
-const { patientHandler, physioHandler } = require('./tools/handler');
-const { rabbitMQUrl, folderId, queueNameFromOpenPose } = require('../config');
+import fs from "fs";
+import amqplib from 'amqplib';
+import { getFile } from "./driveService";
+import amqp = require("amqplib/callback_api");
+import { callToUser, consumeOpenPose } from "./rabbitService";
+import mongoService from './mongoService';
+import { delay } from './tools/tools';
+import { patientHandler, physioHandler } from './tools/handler';
+import config from './config';
+const { rabbitMQUrl, folderId, queueNameFromOpenPose, bucketName } = config;
 
-amqp.connect(rabbitMQUrl, function (error, connection) {
+consumeOpenPose(folderId, bucketName);
+/* amqp.connect(rabbitMQUrl, function (error, connection) {
   if (error) {
     throw error;
   }
@@ -67,4 +70,4 @@ amqp.connect(rabbitMQUrl, function (error, connection) {
     );
   });
 }
-);
+); */
