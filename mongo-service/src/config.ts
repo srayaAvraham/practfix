@@ -2,6 +2,6 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const config = {
-    secret: "secret",
+    secret: process.env.SECRET,
     mongoURL: process.env.MONGO_URL
 }
