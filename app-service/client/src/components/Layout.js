@@ -77,7 +77,7 @@ export const MyLayout = () => {
     </Button> */}
       </Sider>
       <Layout className="site-layout" style={{ marginLeft: 200 }}>
-        <Header className="site-layout-background" style={{  textAlign: 'center' }} > <Button onClick={handleLoguot} style={{ float: 'right' }}type="primary" icon={<LogoutOutlined />} /><strong>{current.title}</strong></Header>
+        <Header className="site-layout-background" style={{  textAlign: 'center' }} > <Button onClick={handleLoguot} style={{ float: 'right', margin: "15px 10px" }}type="primary" icon={<LogoutOutlined />} /><strong>{current.title}</strong></Header>
         <Content style={{ margin: '10px auto', overflow: 'initial', width: "90%", }}>
         
           <div className="site-layout-background" style={{ padding: 24, textAlign: 'center', margin: '10px auto', display: "flex", flexWrap: "wrap" }}>
