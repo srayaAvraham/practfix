@@ -34,7 +34,7 @@ export const MyResult = () => {
     setFetching(true);
     let size = 0
     let buf = []
-    mc.getObject('practfix-minio', filePath, function (err, dataStream) {
+    mc.getObject('practfix', filePath, function (err, dataStream) {
       if (err) {
         return console.log(err)
       }
